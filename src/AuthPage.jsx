@@ -5,13 +5,18 @@ import logo from './assets/logo.png'
 import ubuntu_login from './assets/ubuntu_login.png'
 import Dashboard from './Dashboard'
 import './index.css'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function AuthPage() {
   const [step, setStep] = useState("email"); // email | otp
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const navigate = useNavigate()
 
+  const handleLogin = () => {
+    navigate('/dashboard')
+  }
   const handleOtpChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return;
 
@@ -103,6 +108,7 @@ export default function AuthPage() {
                 </div>
 
                 <button
+                  onClick={handleLogin}
                   type="submit"
                   className="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-700 transition"
                 >
@@ -123,13 +129,6 @@ export default function AuthPage() {
     </div>
     
 
-
-  );
-    return (
-      <Routes>
-        <Route path="/" element={<AuthPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
 
   );
 }
