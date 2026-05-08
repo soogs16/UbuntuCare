@@ -62,14 +62,6 @@ return (
   {/* LOGO + CLOSE */}
   <div className="p-6 flex items-center justify-between">
     <img src={logo} className="w-48 h-15" />
-
-    {/* CLOSE BUTTON */}
-    <button
-      className="md:hidden"
-      onClick={() => setSidebarOpen(false)}
-    >
-      <X size={24} />
-    </button>
   </div>
 
   <nav className="p-4 space-y-2 text-sm">
