@@ -23,7 +23,7 @@ const App = () => {
         activeIndex={activeIndex}
         data={data}
         dataKey="value"
-        outerRadius={120}
+        outerRadius={70}
         fill="#8884d8"
         onMouseEnter={onPieEnter}
       >

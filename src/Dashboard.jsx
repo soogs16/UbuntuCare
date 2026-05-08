@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import logo from './assets/logo.png'
 import LineGraph from "./LineGraph";
 import PieChart from "./PieChart";
+import { Menu, X } from "lucide-react";
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -11,7 +12,7 @@ function Dashboard() {
   const handleLogout = () => {
     navigate('/')
   }
-
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: '' },
     { id: 'partners', label: 'Partners & Tenants', icon: '' },
@@ -40,38 +41,74 @@ function Dashboard() {
 return (
   <div className="flex h-screen w-screen bg-gray-100">
 
-    <aside className="w-64 bg-white hidden md:flex flex-col">
-      <div className="p-6 flex items-center gap-3">
-        <img src={logo} className="w-48 h-15" />
-      </div>
+    {/* MOBILE OVERLAY */}
+{sidebarOpen && (
+  <div
+    className="fixed inset-0 bg-black/40 z-40 md:hidden"
+    onClick={() => setSidebarOpen(false)}
+  />
+)}
 
-      <nav className="p-4 space-y-2 text-sm">
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setActiveTab(item.id)}
-            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition ${
-              activeTab === item.id
-                ? "bg-red-100 text-red-500"
-                : "hover:bg-gray-100 text-gray-600"
-            }`}
-          >
-            <span>{item.icon}</span>
-            {item.label}
-          </button>
-        ))}
-      </nav>
-    </aside>
+{/* SIDEBAR */}
+<aside
+  className={`
+    fixed top-0 left-0 z-50 h-full w-64 bg-white flex flex-col
+    transform transition-transform duration-300
+    ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+    md:translate-x-0 md:static
+  `}
+>
+
+  {/* LOGO + CLOSE */}
+  <div className="p-6 flex items-center justify-between">
+    <img src={logo} className="w-48 h-15" />
+
+    {/* CLOSE BUTTON */}
+    <button
+      className="md:hidden"
+      onClick={() => setSidebarOpen(false)}
+    >
+      <X size={24} />
+    </button>
+  </div>
+
+  <nav className="p-4 space-y-2 text-sm">
+    {menuItems.map((item) => (
+      <button
+        key={item.id}
+        onClick={() => {
+          setActiveTab(item.id)
+          setSidebarOpen(false)
+        }}
+        className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition ${
+          activeTab === item.id
+            ? "bg-red-100 text-red-500"
+            : "hover:bg-gray-100 text-gray-600"
+        }`}
+      >
+        <span>{item.icon}</span>
+        {item.label}
+      </button>
+    ))}
+  </nav>
+</aside>
 
     <div className="flex-1 flex flex-col">
 
       {/* TOP BAR */}
-      <header className="bg-white px-6 py-4 flex justify-between items-center">
+      <header className="bg-white px-6 py-4 flex justify-between items-center gap-4">
+        {/* HAMBURGER BUTTON */}
+        <button
+          className="md:hidden"
+          onClick={() => setSidebarOpen(true)}
+        >
+          <Menu size={28} />
+        </button>
         <span className="text-sm text-gray-500">
           Last login: Today, 08:41 AM
         </span>
 
-        <div className="flex items-center gap-3">
+        <div className="hidden sm:flex items-center gap-3">
           <button className="px-4 py-2 rounded-lg text-sm">
             Filter by Date
           </button>
