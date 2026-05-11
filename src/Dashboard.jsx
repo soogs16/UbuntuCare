@@ -4,6 +4,8 @@ import logo from './assets/logo.png'
 import LineGraph from "./LineGraph";
 import PieChart from "./PieChart";
 import { Menu, X } from "lucide-react";
+import Beneficiary from './pages/Beneficiary';
+import Dashboardhome from './pages/Dashboardhome';
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -14,14 +16,13 @@ function Dashboard() {
   }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: '' },
-    { id: 'partners', label: 'Partners & Tenants', icon: '' },
-    { id: 'people', label: 'People', icon: '' },
-    { id: 'healthcare', label: 'Healthcare Operations', icon: '' },
-    { id: 'finance', label: 'Finance', icon: '' },
-    { id: 'analytics', label: 'Analytics & Insights', icon: '' },
-    { id: 'communications', label: 'Communications', icon: '' },
-    { id: 'system', label: 'System & Compliance', icon: '' }
+    { id: 'dashboard', label: 'Dashboard'},
+    { id: 'beneficiary', label: 'Beneficiary management'},
+    { id: 'providers', label: 'Provider management'},
+    { id: 'partners', label: 'Partners management'},
+    { id: 'audit', label: 'Audit logs'},
+    { id: 'complaints', label: 'Complaints'},
+    { id: 'appointments', label: 'Appointments'},
   ]
 
   const stats = [
@@ -37,6 +38,36 @@ function Dashboard() {
     { user: 'Admin Lisa Wong', action: 'Scheduled new appointment', time: '10 minutes ago' },
     { user: 'Dr. James Smith', action: 'Reviewed lab results', time: '15 minutes ago' }
   ]
+  const renderPage = () => {
+    switch(activeTab) {
+      case "dashboard":
+        return <Dashboardhome />
+
+      case "beneficiary":
+        return <Beneficiary />
+
+      case "people":
+        return <People />
+
+      case "healthcare":
+        return <Healthcare />
+
+      case "finance":
+        return <Finance />
+
+      case "analytics":
+        return <Analytics />
+
+      case "communications":
+        return <Communications />
+
+      case "system":
+        return <System />
+
+      default:
+        return <Dashboardhome />
+    }
+  }
 
 return (
   <div className="flex h-screen w-screen bg-gray-100">
@@ -122,71 +153,8 @@ return (
         </div>
       </header>
 
-      <main className="p-6 space-y-6">
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat, i) => (
-            <div key={i} className="bg-white rounded-xl p-4">
-              <p className="text-sm text-gray-500">{stat.title}</p>
-              <h2 className="text-2xl font-semibold mt-1">{stat.value}</h2>
-              <span className="text-sm text-green-500">{stat.change}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-          {/* LINE CHART */}
-          <div className="lg:col-span-2 bg-white rounded-xl p-4">
-            <h2 className="text-xs font-xs mb-8">
-              Consultation Volume
-            </h2>
-              <LineGraph className="p-5" />
-          </div>
-
-          {/* PIE */}
-          <div className="bg-white rounded-xl p-4">
-            <h2 className="text-xs font-xs mb-4">
-              Utilization by Partner
-            </h2>
-              <PieChart />
-            <div className="mt-4 text-sm space-y-1">
-              <p>Hygeia HMO</p>
-              <p>MTN Corporate</p>
-              <p>Reliance HMO</p>
-              <p>Leadway Health</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-          <div className="bg-white rounded-xl p-4">
-            <h2 className="text-sm font-medium mb-4">Recent Alerts</h2>
-
-            <div className="space-y-3 text-sm">
-              <p className="text-green-600">
-                Premium plan over capacity
-              </p>
-              <p className="text-red-500">
-                Invoice overdue
-              </p>
-              <p className="text-yellow-500">
-                Contract renewal approaching
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl p-6 flex flex-col items-center justify-center text-center">
-            <div className="text-4xl mb-3"></div>
-            <p className="font-medium">Empty State</p>
-            <p className="text-sm text-gray-500">
-              No data available yet
-            </p>
-          </div>
-
-        </div>
-
+      <main className="p-6">
+        {renderPage()}
       </main>
     </div>
   </div>
